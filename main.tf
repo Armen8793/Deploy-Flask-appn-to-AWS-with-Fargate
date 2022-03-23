@@ -1,16 +1,6 @@
-terraform {
-  backend "remote" {
-    organization = "Armen"
-
-    workspaces {
-      name = "armen"
-    }
-  }
-}
-
-
 provider "aws" {
-  region = "us-east-1"
+  shared_credentials_file = "~/.aws/credentials"
+  region                  = "us-east-1"
 }
 
 resource "aws_ecr_repository" "flask-demo" {
@@ -68,7 +58,7 @@ resource "aws_ecs_task_definition" "flask-ecs-task-definition" {
   requires_compatibilities = ["FARGATE"]
   memory                   = "1024"
   cpu                      = "512"
-  execution_role_arn       = "arn:aws:iam::635776503252:role/ECS-task-execution-role"
+  execution_role_arn       = "arn:aws:iam::635776503252:role/ecsTaskExecutionRole1"
   container_definitions    = <<EOF
 [
   {
