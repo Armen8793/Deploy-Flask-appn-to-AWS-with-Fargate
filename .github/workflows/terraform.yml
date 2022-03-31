@@ -85,9 +85,7 @@ jobs:
 
     - name: Terraform Init
       id: init
-      run: 
-        rm -rf .terraform
-        terraform init  -upgrade=true -input=false
+      run: terraform init  
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
