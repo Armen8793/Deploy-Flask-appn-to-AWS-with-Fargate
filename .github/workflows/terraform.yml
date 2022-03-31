@@ -36,19 +36,27 @@
 #       with:
 #         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-name: 'Terraform'
+name: 'Flask-Terraform-ECS-Deploy'
 
 on:
+  workflow_dispatch:
   push:
     branches:
     - main
   pull_request:
 
+defaults:
+  run:
+    shell: bash
 jobs:
   terraform:
-    name: 'Terraform'
-    runs-on: ubuntu-latest
-    environment: production
+    name: [${{matrix.runner}} - ${{matrix.environment}}
+    runs-on: ['${{matrix.runner}}']
+      max-parallel: 1
+      matrix:
+        include:
+          - environment: test
+            runner: ubuntu-latest
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
@@ -76,22 +84,21 @@ jobs:
 
     - name: Terraform Init
       id: init
-      run: terraform init
-
-
-    - name: Terraform validate
-      id: validate
-      run: terraform validate -no-color
-
+      run: 
+        rm -rf .terraform
+        terraform init -backend-config=${{matrix.environment}} -no-colo -input=false
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
       id: plan
-      if: github.event_name == 'pull_request'
-      run: terraform plan -no-color
-      continue-on-error: true
+      run: 
+        terraform plan -input=false -var-file=${{matrix.environment}}
 
-      
     - name: Terraform Apply
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: terraform apply -auto-approve
+      if: github.ref == 'refs/heads/main'
+      run: terraform apply -auto-approve -input=false -var-file=${{matrix.environment}}
+      
+    - name: Terraform destroy
+      if: github.ref == 'refs/heads/destroy'
+      id: destroy
+      run: terraform destroy -auto-approve -input=false -var-file=${{matrix.environment}}
