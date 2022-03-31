@@ -90,14 +90,13 @@ jobs:
     # Generates an execution plan for Terraform
     - name: Terraform Plan
       id: plan
-      run: 
-        terraform plan -input=false -var-file=${{matrix.environment}}
-
+      run: terraform plan 
+        
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main'
-      run: terraform apply -auto-approve -input=false -var-file=${{matrix.environment}}
+      run: terraform apply -auto-approve -input=false 
       
     - name: Terraform destroy
       if: github.ref == 'refs/heads/destroy'
       id: destroy
-      run: terraform destroy -auto-approve -input=false -var-file=${{matrix.environment}}
+      run: terraform destroy -auto-approve -input=false 
