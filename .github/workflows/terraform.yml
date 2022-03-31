@@ -1,7 +1,7 @@
 
 # Documentation for `hashicorp/setup-terraform` is located here: https://github.com/hashicorp/setup-terraform
 #
-#  `remote` backend and one or more resources defined.
+#  `remote` backend and one or more resources defined
 #   Example `main.tf`:
 #     # The configuration for the `remote` backend.
 #     terraform 
