@@ -87,7 +87,7 @@ jobs:
       id: init
       run: 
         rm -rf .terraform
-        terraform init -backend-config=${{matrix.environment}} -no-colo -input=false
+        terraform init -backend-config=${{matrix.environment}} -no-color -input=false
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
