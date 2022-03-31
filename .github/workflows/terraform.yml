@@ -50,8 +50,8 @@ defaults:
     shell: bash
 jobs:
   terraform:
-    name: [${{matrix.runner}} - ${{matrix.environment}}
-    runs-on: ['${{matrix.runner}}']
+    name: ${{ matrix.runner }} - ${{ matrix.environment }}
+    runs-on: [ '${{ matrix.runner }}' ]
       max-parallel: 1
       matrix:
         include:
