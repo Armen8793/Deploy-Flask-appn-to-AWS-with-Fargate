@@ -51,7 +51,7 @@ defaults:
 
 jobs:
   terraform:
-  - name: ${{ matrix.runner }} - ${{ matrix.environment }}
+    name: ${{ matrix.runner }} - ${{ matrix.environment }}
     runs-on: ['${{ matrix.runner }}']
     strategy:
       max-parallel: 1
